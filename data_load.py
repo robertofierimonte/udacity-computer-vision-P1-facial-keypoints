@@ -1,7 +1,6 @@
-import glob
 import os
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.image as mpimg
 import pandas as pd

@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "udacity-computer-vision-p1-facial-keypoints"
+version = "0.1.0"
+description = ""
+authors = ["Roberto Fierimonte <roberto.fierimonte@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10.11,<3.11"
+matplotlib = "^3.10.0"
+pandas = "^2.2.3"
+numpy = "^2.2.1"
+scipy = "^1.14.1"
+torchvision = "^0.20.1"
+torch = "^2.5.1"
+pillow = "^11.0.0"
+opencv-python = "^4.10.0.84"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+pre-commit = "^4.0.1"
+commitizen = "^4.1.0"
+black = "^24.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
