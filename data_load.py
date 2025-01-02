@@ -159,3 +159,38 @@ class ToTensor(object):
         
         return {'image': torch.from_numpy(image),
                 'keypoints': torch.from_numpy(key_pts)}
+
+
+class RandomRotation(object):
+    """Randomly rotate the image in a sample."""
+
+    def __init__(self, degrees: float | int | tuple[float | int, float | int]):
+        assert isinstance(degrees, (float, int | tuple))
+        if isinstance(degrees, (float | int)):
+            assert degrees > 0
+            self.degrees = (-degrees, degrees)
+        else:
+            assert len(degrees) == 2 and degrees[1] > degrees[0] 
+            assert degrees[0] > -360 and degrees[1] < 360
+            self.degrees = degrees
+        
+    def __call__(self, sample):
+        image, key_pts = sample['image'], sample['keypoints']
+
+        # Get the size and centre of the image
+        h, w = image.shape[:2]
+        center = (w // 2, h // 2)
+        
+        # Rotate the image
+        angle = np.random.uniform(*self.degrees)
+        M = cv2.getRotationMatrix2D(center, angle, 1.0)
+        rotated_image = cv2.warpAffine(image, M, (w, h))
+
+        # Rotate the key points
+        angle1 = np.deg2rad(angle)
+        M1 = np.array(
+            [[np.cos(angle1), -np.sin(angle1)], [np.sin(angle1), np.cos(angle1)]]
+        )
+        rotated_key_pts = (key_pts - center) @ M1 + center
+
+        return {'image': rotated_image, 'keypoints': rotated_key_pts}
